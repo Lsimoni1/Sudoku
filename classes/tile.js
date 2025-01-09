@@ -1,8 +1,8 @@
 class tile {
-    constructor() {
+    constructor(x, y) {
         this.gridPosition = {
-            x: 0,
-            y: 0
+            x: x,
+            y: y
         }
         this.value = 0
         this.color = "red"
@@ -10,6 +10,11 @@ class tile {
 
     draw() {
         ctx.fillStyle = 'green'
-        ctx.fillRect(this.position.x, this.position.y, 64, 64)
+        ctx.fillRect(this.gridPosition.x, this.gridPosition.y, 64, 64)
+    }
+
+    revealValue() {
+        ctx.font = "30px Arial"
+        ctx.fillText(this.value, this.gridPosition.x, this.gridPosition.y)
     }
 }
