@@ -14,7 +14,8 @@ class tile {
     }
 
     revealValue() {
-        ctx.font = "30px Arial"
-        ctx.fillText(this.value, this.gridPosition.x, this.gridPosition.y)
+        ctx.fillStyle = 'black'
+        ctx.font = '30px Arial'
+        ctx.fillText(this.value, this.gridPosition.x + 32, this.gridPosition.y + 32)
     }
 }

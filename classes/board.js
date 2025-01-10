@@ -24,4 +24,12 @@ class board {
             ctx.stroke()
         }
     }
+
+    fillBoard() {
+        // for(let y = 0; y <= this.dimensions.y; y ++) {
+        //     for(let x = 0; x < this.dimensions.x; x ++) {
+        //         var newTile = 
+        //     }
+        // }
+    }
 }
