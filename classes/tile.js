@@ -1,10 +1,10 @@
 class tile {
-    constructor(x, y) {
+    constructor(x, y, value) {
         this.gridPosition = {
-            x: x,
-            y: y
+            x: x * 64,
+            y: y * 64
         }
-        this.value = 0
+        this.value = value
         this.color = "red"
     }
 
@@ -17,5 +17,11 @@ class tile {
         ctx.fillStyle = 'black'
         ctx.font = '30px Arial'
         ctx.fillText(this.value, this.gridPosition.x + 32, this.gridPosition.y + 32)
+    }
+
+    getValue(x, y) {
+        if( this.gridPosition.x === x && this.gridPosition.y === y) {
+            return this.value
+        }
     }
 }
