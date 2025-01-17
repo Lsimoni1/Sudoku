@@ -15,11 +15,25 @@ class board {
         ctx.fillStyle = "white"
         ctx.fillRect(this.position.x, this.position.y, 584, 584)
         for(let i = 65; i <= 584; i += 65) {
+            if( i % 195 === 0 ) {
+                ctx.lineWidth = 5
+                console.log("hi")
+            } else {
+                ctx.lineWidth = 1
+            }
+            ctx.beginPath()
             ctx.moveTo(i, 0)
             ctx.lineTo(i, 584)
             ctx.stroke()
         }
         for(let i = 65; i <= 584; i += 65) {
+            if( i % 195 === 0 ) {
+                ctx.lineWidth = 5
+                console.log("hi")
+            } else {
+                ctx.lineWidth = 1
+            }
+            ctx.beginPath()
             ctx.moveTo(0, i)
             ctx.lineTo(584, i)
             ctx.stroke()
@@ -40,24 +54,41 @@ class board {
             return
         }
 
+        var currentTileVal
+        var skips = []
         let numPool = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9])
+        for(let i = 8; i >= 0; i--) {
+            if( dir === 'horiz') {
+                currentTileVal = this.checkTile(i, row)
+            } else {
+                currentTileVal = this.checkTile(row, i)
+            }
+
+            if( currentTileVal != -1) {
+                numPool.delete(currentTileVal)
+                skips.push(i)
+            }
+        }
+
         let activeNums = Array.from(numPool)
         for(let i = 8; i >= 0; i--) {
-            const randNum = getRandomInt(0, i)
-            activeNums = Array.from(numPool)
+            if(skips.includes(i)) {
+                console.log('skipping tile: ' + i)
+                continue
+            }
+            const randNum = getRandomInt(0, activeNums.length - 1)
+            let numInserted = activeNums[randNum] 
             if(dir === 'horiz') {
-                let numInserted = activeNums[randNum] 
                 let newTile = new tile(i, row, numInserted)
-                numPool.delete(numInserted)
                 newTile.revealValue()
                 this.tiles.push(newTile)
             } else {
-                let numInserted = activeNums[randNum]
                 let newTile = new tile(row, i, numInserted)
-                numPool.delete(numInserted)
                 newTile.revealValue()
-                this.tiles.push(newTile)
+                this.tiles.push(newTile)    
             }      
+            numPool.delete(numInserted)
+            activeNums = Array.from(numPool)
         } 
     }
     
