@@ -7,7 +7,7 @@ class tile {
         this.value = value
         this.color = "red"
         this.determineGridVal(x, y)
-    }
+    } 
 
     draw() {
         ctx.fillStyle = 'green'
@@ -26,6 +26,10 @@ class tile {
         }
     }
 
+    setValue(value) {
+        this.value = value
+    }
+
     determineGridVal(x, y) {
         if(y < 3) {
             if(x < 3) {
@@ -36,7 +40,6 @@ class tile {
             }
             else if(x >= 6 && x < 9) {
                 this.gridGroup = 3
-                console.log("hello")
             }
         } 
         else if(y >= 3 && y < 6) {

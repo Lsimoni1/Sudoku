@@ -17,7 +17,6 @@ class board {
         for(let i = 65; i <= 584; i += 65) {
             if( i % 195 === 0 ) {
                 ctx.lineWidth = 5
-                console.log("hi")
             } else {
                 ctx.lineWidth = 1
             }
@@ -29,7 +28,6 @@ class board {
         for(let i = 65; i <= 584; i += 65) {
             if( i % 195 === 0 ) {
                 ctx.lineWidth = 5
-                console.log("hi")
             } else {
                 ctx.lineWidth = 1
             }
@@ -54,6 +52,8 @@ class board {
             return
         }
 
+        // code below checks whether a value has already been used previously in the 
+        // same direction as the row being drawn
         var currentTileVal
         var skips = []
         let numPool = new Set([1, 2, 3, 4, 5, 6, 7, 8, 9])
@@ -76,10 +76,22 @@ class board {
                 console.log('skipping tile: ' + i)
                 continue
             }
-            const randNum = getRandomInt(0, activeNums.length - 1)
+            let randNum = getRandomInt(0, activeNums.length - 1)
             let numInserted = activeNums[randNum] 
+            let existingNums = new Set()
             if(dir === 'horiz') {
                 let newTile = new tile(i, row, numInserted)
+
+                let tileGridGroup = newTile.gridGroup
+                let usedNums = this.checkTileGrid(tileGridGroup)
+                if(usedNums.length > 0) {
+                    for(let i = 0; i < usedNums.length; i++) {
+                        existingNums.add(usedNums[i])
+                        existingNums = numPool.difference(existingNums)
+                        activeNums = Array.from(existingNums)
+                    }
+                }
+
                 newTile.revealValue()
                 this.tiles.push(newTile)
             } else {
@@ -98,11 +110,31 @@ class board {
         for( let i = 0; i < this.tiles.length; i++) {
             let tempTile = this.tiles[i]
             if( tempTile.gridPosition.x === posX && tempTile.gridPosition.y === posY) {
-                console.log("poop")
                 return tempTile.value
             }
         }
         return -1
+    }
+
+    // PREVIOUS ITERATION OF FUNCTION, ROW IS NOT NECESSARY
+    // checkTileGrid(gridGroup, row) {
+    //     let existingTiles = []
+    //     for(let i = 0; i < this.tiles.length; i++) {
+    //         let tempTile = this.tiles[i]
+    //         if(tempTile.gridGroup == gridGroup && tempTile.gridPosition.x != row)
+    //             existingTiles.push(tempTile.value)
+    //     }
+    //     return existingTiles
+    // }
+
+    checkTileGrid(gridGroup) {
+        let existingTiles = []
+        for(let i = 0; i < this.tiles.length; i++) {
+            let tempTile = this.tiles[i]
+            if(tempTile.gridGroup == gridGroup)
+                existingTiles.push(tempTile.value)
+        }
+        return existingTiles
     }
 }
 
