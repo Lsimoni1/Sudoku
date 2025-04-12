@@ -87,9 +87,11 @@ class board {
                 if(usedNums.length > 0) {
                     for(let i = 0; i < usedNums.length; i++) {
                         existingNums.add(usedNums[i])
-                        existingNums = numPool.difference(existingNums)
-                        activeNums = Array.from(existingNums)
                     }
+                    existingNums = numPool.difference(existingNums)
+                    activeNums = Array.from(existingNums)
+                    randNum = getRandomInt(0, activeNums.length - 1)
+                    console.log((activeNums[randNum]) + " random: " + randNum)
                 }
 
                 newTile.revealValue()
