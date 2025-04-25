@@ -41,13 +41,51 @@ class tile {
         if(this.isSelected) {
             this.isSelected = false
             console.log("tile at " + this.gridPosition + " unselected")
-            
-        } else {
+            gameboard.tileCurrentlySelected = false
+            gameboard.redraw()
+        } else if (gameboard.tileCurrentlySelected) {
+            var tempTile = gameboard.getSelectedTile()
+            if(tempTile == null) {
+                console.log("u suck")
+            }
+            tempTile.isSelected = false
+            gameboard.redraw()
+            console.log("tile at " + tempTile.gridPosition + " unselected")
             this.isSelected = true
-            ctx.fillStyle = "green"
+            ctx.fillStyle = "rgba(0, 255, 0, 0.25)"
             ctx.fillRect(this.gridPosition.x + 1, this.gridPosition.y + 1, TILE_WIDTH - 2, TILE_WIDTH - 2)
             console.log("tile at " + this.gridPosition + " selected")
+
+
+            //NEED TO "UNDRAW" TILE SELECTION BOXES, WILL NEED TO REDRAW WHOLE BOARD
+            //MAYBE WRITE A FUNCTION INSIDE OF BOARD CLASS??
+            // ctx.fillStyle = "white"
+            // ctx.fillRect(tempTile.gridPosition.x + 1, tempTile.gridPosition.y + 1, TILE_WIDTH - 2, TILE_WIDTH - 2)
+            // gameboard.draw()
+            // for(let i = 0; i < gameboard.tiles.length; i++ {
+            //     var tempTile = gameboard.tiles[i]
+            //     tempTile.revealValue
+            // })
+            // console.log("tile at " + tempTile.gridPosition + " selected")
+        } else {
+            this.isSelected = true
+            ctx.fillStyle = "rgba(0, 255, 0, 0.25)"
+            ctx.fillRect(this.gridPosition.x + 1, this.gridPosition.y + 1, TILE_WIDTH - 2, TILE_WIDTH - 2)
+            console.log("tile at " + this.gridPosition + " selected")
+            gameboard.tileCurrentlySelected = true
         }
+
+        // if(this.isSelected) {
+        //     this.isSelected = false
+        //     console.log("tile at " + this.gridPosition + " unselected")
+        //     gameboard.tileCurrentlySelected = false
+        // } else {
+        //     this.isSelected = true
+        //     ctx.fillStyle = "green"
+        //     ctx.fillRect(this.gridPosition.x + 1, this.gridPosition.y + 1, TILE_WIDTH - 2, TILE_WIDTH - 2)
+        //     console.log("tile at " + this.gridPosition + " selected")
+        //     gameboard.tileCurrentlySelected = true
+        // }
     }
 
     determineGridVal(x, y) {
