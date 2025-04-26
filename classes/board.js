@@ -9,6 +9,7 @@ class board {
             y: 9
         }
         this.tiles = []
+        this.tileCurrentlySelected = false
     }
 
     draw() {
@@ -35,6 +36,38 @@ class board {
             ctx.moveTo(0, i)
             ctx.lineTo(584, i)
             ctx.stroke()
+        }
+    }
+
+    redraw() {
+        ctx.fillStyle = "white"
+        ctx.fillRect(this.position.x, this.position.y, 584, 584)
+        for(let i = 65; i <= 584; i += 65) {
+            if( i % 195 === 0 ) {
+                ctx.lineWidth = 5
+            } else {
+                ctx.lineWidth = 1
+            }
+            ctx.beginPath()
+            ctx.moveTo(i, 0)
+            ctx.lineTo(i, 584)
+            ctx.stroke()
+        }
+        for(let i = 65; i <= 584; i += 65) {
+            if( i % 195 === 0 ) {
+                ctx.lineWidth = 5
+            } else {
+                ctx.lineWidth = 1
+            }
+            ctx.beginPath()
+            ctx.moveTo(0, i)
+            ctx.lineTo(584, i)
+            ctx.stroke()
+        }
+
+        for(let i = 0; i < this.tiles.length; i++) {
+            let tile = this.tiles[i]
+            tile.revealValue()
         }
     }
 
@@ -87,9 +120,11 @@ class board {
                 if(usedNums.length > 0) {
                     for(let i = 0; i < usedNums.length; i++) {
                         existingNums.add(usedNums[i])
-                        existingNums = numPool.difference(existingNums)
-                        activeNums = Array.from(existingNums)
                     }
+                    existingNums = numPool.difference(existingNums)
+                    activeNums = Array.from(existingNums)
+                    randNum = getRandomInt(0, activeNums.length - 1)
+                    console.log((activeNums[randNum]) + " random: " + randNum)
                 }
 
                 newTile.revealValue()
@@ -135,6 +170,16 @@ class board {
                 existingTiles.push(tempTile.value)
         }
         return existingTiles
+    }
+
+    getSelectedTile() {
+        for(let i = 0; i < this.tiles.length; i++) {
+            let tempTile = this.tiles[i]
+            if(tempTile.isSelected) {
+                return tempTile
+            }
+        }
+        return null
     }
 }
 
